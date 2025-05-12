@@ -1,11 +1,13 @@
 from django.contrib import admin
-from django.urls import path
-from django.shortcuts import render
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from api.views import UserViewSet, ApiKeyViewSet
 
-def home(request):
-    return render(request, 'home.html')
+router = DefaultRouter()
+router.register(r'users', UserViewSet, basename='user')
+router.register(r'apikeys', ApiKeyViewSet, basename='apikey')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home, name='home'),
+    path('api/', include(router.urls)),  # Correct path
 ]
